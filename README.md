@@ -1,4 +1,5 @@
 # Tumblr-Reblog-Bot.
+(This code is super messy and based of something I found on pastebin)
 Requires Pytumblr (https://github.com/tumblr/pytumblr)
 pip install Pytumblr
 
