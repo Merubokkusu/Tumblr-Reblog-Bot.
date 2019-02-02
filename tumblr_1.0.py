@@ -4,9 +4,22 @@ import sys
 import os
 from time import sleep
 
+def countdown(t):
+    while t:
+        mins, secs = divmod(t, 60)
+        timeformat = '{:02d}:{:02d}'.format(mins, secs)
+        print(timeformat, end='\r')
+        time.sleep(1)
+        t -= 1
+    cls()
+    restart_program()
+    
 def restart_program():
     python = sys.executable
     os.execl(python, python, * sys.argv)
+
+def cls():
+    os.system('cls' if os.name=='nt' else 'clear')
  
     
     """Add as many tags as you want"""
@@ -23,8 +36,8 @@ client = pytumblr.TumblrRestClient(
     '<oauth_secret>'
 )
 
-for tag in tags:
-    for c in client.tagged(tag):
+tag = random.choice (tags)
+for c in client.tagged(tag):
       if not c["reblog_key"] in open('posts.txt').read():
         if random.randint(1,1) == 1:
         
@@ -33,29 +46,22 @@ for tag in tags:
             f.close()
              
             client.like(c["id"],c["reblog_key"])
-            """Change the CHANGEME name"""
+            #"""Change the CHANGEME name"""
             client.reblog('CHANGEME.tumblr.com',id=c["id"], reblog_key=c["reblog_key"]) 
-            print "Liked & Rebloged: " + tag + " - " + c["blog_name"] + ".tumblr.com" + " - " + c["slug"] + c["reblog_key"]
+            print ("Liked & Rebloged: " + tag + " - " + c["blog_name"] + ".tumblr.com" + " - " + c["slug"] + c["reblog_key"])
             client.follow(c["blog_name"] + ".tumblr.com")
-            print "Followed: " + tag + " - " + c["blog_name"] + ".tumblr.com"
+            print ("Followed: " + tag + " - " + c["blog_name"] + ".tumblr.com")
         else:
         #    client.follow(c["blog_name"] + ".tumblr.com")
-            print "Followed: " + tag + " - " + c["blog_name"] + ".tumblr.com"
-        t = random.randint(300,600)
-        print "Sleeping for " + str(t) + " seconds."
-        time.sleep(t);
-        restart_program()
+            print ("Followed: " + tag + " - " + c["blog_name"] + ".tumblr.com")
+        t = random.randint(20,40)
+        countdown(t)
 
 
 
 
-print "Couldnt Get Any Posts...!"
+print ("Couldnt Get Any Posts!")
+print ("Waiting..")
 te = random.randint(10,20)
-print "Sleeping for " + str(te) + " seconds."
-#time.sleep(te);
-for i in range(te):
-    print 0 + i
-    sleep(1)
-print "Restart"
-restart_program()
+countdown(te)
 
